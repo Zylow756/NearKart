@@ -4,6 +4,10 @@ import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+
+import routes from "./routes/index.js";
+import requestId from "./middlewares/requestId.js";
+import notFound from "./middlewares/notFound.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 const app = express();
@@ -16,22 +20,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(requestId);
 
-// Health Check Route
-app.get("/api/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "NearKart API is running"
-  });
-});
+// Routes
+app.use("/api/v1", routes);
 
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: "Route not found"
-  });
-});
+// 404 Handler
+app.use(notFound);
 
+// Error Handler
 app.use(errorMiddleware);
 
 export default app;
