@@ -5,25 +5,30 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
+      required: [true, "Username is required"],
       trim: true,
-      required: true,
       minlength: 3,
       maxlength: 50,
     },
 
     mobileNumber: {
       type: String,
-      required: true,
+      required: [true, "Mobile number is required"],
       unique: true,
       trim: true,
-      match: /^[6-9]\d{9}$/,
       index: true,
+      match: [/^[6-9]\d{9}$/, "Invalid mobile number"],
     },
 
     role: {
       type: String,
       enum: Object.values(ROLES),
       default: ROLES.USER,
+    },
+
+    profileImage: {
+      type: String,
+      default: "",
     },
 
     isVerified: {
@@ -36,13 +41,15 @@ const userSchema = new mongoose.Schema(
       default: true,
     },
 
-    lastLogin: Date,
+    lastLogin: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
-  },
+    versionKey: false,
+  }
 );
 
-const User = mongoose.model("User", userSchema);
-
-export default User;
+export default mongoose.model("User", userSchema);
