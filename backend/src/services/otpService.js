@@ -15,7 +15,7 @@ const MAX_ATTEMPTS = 5;
 /**
  * Generate and store a new OTP
  */
-export const sendOTP = async (mobileNumber, purpose) => {
+export const sendOTP = async (mobileNumber,purpose,metadata = {}) => {
   // Remove any previous OTPs for the same purpose
   await deleteOTPs(mobileNumber, purpose);
 
@@ -35,6 +35,7 @@ export const sendOTP = async (mobileNumber, purpose) => {
     mobileNumber,
     otp: hashedOTP,
     purpose,
+    metadata,
     expiresAt,
   });
 

@@ -87,3 +87,33 @@ export const markAsVerified = async (otpId) => {
     }
   );
 };
+
+/**
+ * Find verified OTP
+ */
+export const findVerifiedOTP = async (
+  mobileNumber,
+  purpose
+) => {
+  return OTP.findOne({
+    mobileNumber,
+    purpose,
+    isVerified: true,
+  }).sort({
+    createdAt: -1,
+  });
+};
+
+/**
+ * Delete verified OTPs
+ */
+export const deleteVerifiedOTPs = async (
+  mobileNumber,
+  purpose
+) => {
+  return OTP.deleteMany({
+    mobileNumber,
+    purpose,
+    isVerified: true,
+  });
+};

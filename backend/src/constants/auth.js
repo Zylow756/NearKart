@@ -1,0 +1,9 @@
+const AUTH = Object.freeze({
+  ACCESS_TOKEN: "ACCESS_TOKEN",
+  REFRESH_TOKEN: "REFRESH_TOKEN",
+
+  /*ACCESS_TOKEN_EXPIRES: "15m",
+  REFRESH_TOKEN_EXPIRES: "30d",*/
+});
+
+export default AUTH;

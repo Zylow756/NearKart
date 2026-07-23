@@ -1,41 +1,63 @@
 import User from "../models/User.js";
 
 /**
- * Find user by MongoDB ID
+ * Find user by ID
  */
-const findById = async (id) => {
-  return await User.findById(id);
+export const findUserById = async (id) => {
+  return User.findById(id);
 };
 
 /**
  * Find user by mobile number
  */
-const findByMobile = async (mobileNumber) => {
-  return await User.findOne({ mobileNumber });
+export const findUserByMobile = async (mobileNumber) => {
+  return User.findOne({ mobileNumber });
 };
 
 /**
- * Create new user
+ * Check if mobile number already exists
  */
-const createUser = async (userData) => {
-  return await User.create(userData);
+export const userExists = async (mobileNumber) => {
+  return User.exists({ mobileNumber });
+};
+
+/**
+ * Create user
+ */
+export const createUser = async (userData) => {
+  return User.create(userData);
 };
 
 /**
  * Update user
  */
-const updateUser = async (id, updateData) => {
-  return await User.findByIdAndUpdate(id, updateData, {
+export const updateUser = async (id, updateData) => {
+  return User.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
   });
 };
 
 /**
+ * Mark mobile as verified
+ */
+export const verifyUser = async (id) => {
+  return User.findByIdAndUpdate(
+    id,
+    {
+      isVerified: true,
+    },
+    {
+      new: true,
+    }
+  );
+};
+
+/**
  * Update last login
  */
-const updateLastLogin = async (id) => {
-  return await User.findByIdAndUpdate(
+export const updateLastLogin = async (id) => {
+  return User.findByIdAndUpdate(
     id,
     {
       lastLogin: new Date(),

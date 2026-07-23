@@ -1,13 +1,24 @@
-const errorMiddleware = (err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
+import AppError from "../errors/AppError.js";
 
-  res.status(statusCode).json({
+const errorMiddleware = (err, req, res, next) => {
+  console.error(err);
+
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      errors: err.details,
+      requestId: req.requestId,
+    });
+  }
+
+  return res.status(500).json({
     success: false,
-    message: err.message || "Internal Server Error",
-    stack:
-      process.env.NODE_ENV === "development"
-        ? err.stack
-        : undefined,
+    message: "Internal Server Error",
+    requestId: req.requestId,
+    ...(process.env.NODE_ENV === "development" && {
+      stack: err.stack,
+    }),
   });
 };
 

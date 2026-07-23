@@ -48,6 +48,14 @@ const otpSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+
+    metadata: {
+  username: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+},
   },
   {
     timestamps: true,
