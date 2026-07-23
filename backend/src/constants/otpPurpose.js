@@ -1,0 +1,8 @@
+const OTP_PURPOSE = Object.freeze({
+  REGISTER: "REGISTER",
+  LOGIN: "LOGIN",
+  RESET_PASSWORD: "RESET_PASSWORD",
+  CHANGE_MOBILE: "CHANGE_MOBILE",
+});
+
+export default OTP_PURPOSE;
